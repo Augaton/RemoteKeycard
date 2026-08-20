@@ -19,7 +19,9 @@ namespace RemoteKeycard.Commands
 
         public override void LoadGeneratedCommands()
         {
-            RegisterCommand(new StatusCommand("RemoteKeycard", "4.1.0", Permission, builder =>
+            RegisterCommand(new StatusCommand(
+                "RemoteKeycard",
+                typeof(Plugin), Permission, builder =>
             {
                 Config.Config config = Plugin.Instance.Config;
                 builder.AppendLine($"  portes {Yes(config.AffectDoors)}, generateurs {Yes(config.AffectGenerators)}, ogive {Yes(config.AffectWarheadPanel)}, casiers {Yes(config.AffectScpLockers)}");
