@@ -1,0 +1,46 @@
+# RemoteKeycard 4.0
+
+Ouvre portes, generateurs, casiers SCP et panneau d'ogive sans avoir la carte en
+main : il suffit de la porter dans son inventaire.
+
+**EXILED 9.14.2** — `dotnet build -c Release RemoteKeycard/RemoteKeycard.csproj`
+
+## Configuration
+
+| Cle | Defaut | Role |
+|---|---|---|
+| `amnesia_matters` | `true` | L'effet Amnesie bloque l'ouverture a distance |
+| `affect_doors` | `true` | Agit sur les portes |
+| `affect_generators` | `true` | Agit sur les generateurs |
+| `affect_warhead_panel` | `true` | Agit sur le panneau de l'ogive |
+| `affect_scp_lockers` | `true` | Agit sur les casiers SCP |
+| `ignored_roles` | `[]` | Roles ne beneficiant jamais de l'ouverture a distance |
+| `require_held_keycard` | `false` | Exige la carte en main plutot que dans l'inventaire |
+| `extras.enable_events` | `false` | Expose l'evenement `UsingKeycard` aux autres plugins |
+
+## API
+
+Les plugins tiers peuvent intercepter chaque ouverture a distance :
+
+```csharp
+RemoteKeycard.API.Events.UsingKeycard += ev =>
+{
+    if (ev.Target == RemoteTarget.WarheadPanel)
+        ev.IsAllowed = false;
+};
+```
+
+`ev.Target` indique le type d'objet (`Door`, `Generator`, `WarheadPanel`,
+`ScpLocker`), `ev.OriginalEvent` porte l'`EventArgs` EXILED d'origine. Le
+systeme est desactive par defaut : l'activer coute une allocation par
+interaction, inutile si aucun plugin ne l'ecoute.
+
+## Note de portage
+
+La version 3.x ciblait EXILED 4.1.0. Le portage touche surtout au systeme de
+permissions : le rework des cartes de la 14.0 a remplace `KeycardPermissions`
+par `DoorPermissionFlags`. Le type est aliase en un seul point par fichier
+(`using PermissionFlags = ...`) pour qu'un changement d'API ne se propage pas.
+
+Les exceptions ne sont plus masquees derriere une option de config : elles
+partent systematiquement en `Log.Error`.
