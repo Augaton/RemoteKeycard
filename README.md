@@ -1,5 +1,9 @@
 # RemoteKeycard 4.0
 
+
+> Portage EXILED 9.14.2 d'un plugin de **Beryl**. Depot non affilie a
+> l'auteur d'origine. Voir [NOTICE.md](NOTICE.md) pour l'attribution.
+
 Ouvre portes, generateurs, casiers SCP et panneau d'ogive sans avoir la carte en
 main : il suffit de la porter dans son inventaire.
 
