@@ -55,7 +55,8 @@ namespace RemoteKeycard.Handlers
                     return;
 
                 ev.IsAllowed = true;
-                Trace(ev.Player, "porte", ev.Door.Type.ToString());
+                if (config.Debug)
+                    Trace(ev.Player, "porte", ev.Door.Type.ToString());
             }
             catch (Exception e)
             {
@@ -77,7 +78,8 @@ namespace RemoteKeycard.Handlers
                     return;
 
                 ev.IsAllowed = true;
-                Trace(ev.Player, "generateur", ev.Generator.Room?.Type.ToString());
+                if (config.Debug)
+                    Trace(ev.Player, "generateur", ev.Generator.Room?.Type.ToString());
             }
             catch (Exception e)
             {
