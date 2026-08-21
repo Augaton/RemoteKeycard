@@ -1,5 +1,6 @@
 using System;
 using Exiled.API.Features;
+using AugatonLib.Runtime;
 using RemoteKeycard.Handlers;
 
 namespace RemoteKeycard
@@ -27,12 +28,16 @@ namespace RemoteKeycard
             keycardHandlers = new KeycardHandlers(Config);
             keycardHandlers.Start();
 
+            PluginDirectory.Register(this, Capability.DoorLock);
+
             base.OnEnabled();
         }
 
         public override void OnDisabled()
         {
             keycardHandlers?.Stop();
+
+            PluginDirectory.Unregister(this);
 
             keycardHandlers = null;
             Instance = null;

@@ -1,4 +1,5 @@
 using System;
+using AugatonLib.Arbitration;
 using Exiled.API.Features;
 using Exiled.Events.EventArgs.Player;
 using RemoteKeycard.API;
@@ -38,6 +39,14 @@ namespace RemoteKeycard.Handlers
             {
                 if (!config.AffectDoors || ev?.Player is null || ev.Door is null || ev.IsAllowed)
                     return;
+
+                if (DoorLockRegistry.IsLocked(ev.Door.Type, out string lockOwner))
+                {
+                    if (config.Debug)
+                        Log.Debug($"{ev.Door.Type} laissee fermee pour {ev.Player.Nickname} : verrou pose par {lockOwner}.");
+
+                    return;
+                }
 
                 if (!ev.Player.HasKeycardPermission(ev.Door.KeycardPermissions))
                     return;

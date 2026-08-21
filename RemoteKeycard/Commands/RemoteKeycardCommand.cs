@@ -19,6 +19,8 @@ namespace RemoteKeycard.Commands
 
         public override void LoadGeneratedCommands()
         {
+            RegisterCommand(new CollectionCommand(Permission));
+
             RegisterCommand(new StatusCommand(
                 "RemoteKeycard",
                 typeof(Plugin), Permission, builder =>
